@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_dark"
+    android:background="@color/black_translucent_60"
     tools:context=".MainActivity">
 
 
@@ -15,9 +15,9 @@
         <ImageView
             android:id="@+id/movie_poster"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="220dp"
             android:fitsSystemWindows="true"
-            tools:src="@drawable/ic_launcher_background"
+            tools:src="@tools:sample/backgrounds/scenic"
             android:scaleType="centerCrop"/>
 
         <TextView
@@ -28,6 +28,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
+            tools:text="Movie Name"
             android:textColor="@android:color/white"
             android:textSize="32sp"/>
 
@@ -37,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            tools:text="Release Date: 2002-06-11 "
             android:fontFamily="sans-serif-light"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@android:color/white"/>
@@ -47,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            tools:text="7.7/10"
             android:fontFamily="sans-serif-light"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@android:color/white"/>
@@ -68,6 +71,7 @@
             android:layout_margin="16dp"
             android:fontFamily="sans-serif-light"
             android:lineSpacingMultiplier="1.2"
+            tools:text="@string/lorem_ipsum"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@android:color/white"/>
 
