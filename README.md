@@ -18,7 +18,7 @@ tmdb_api_key=YOUR_API_KEY
 
 ## Screenshots
 <div style="display:flex;" >
-<img  src="https://imgur.com/wTXzOr4" width="19%" >
-<img style="margin-left:10px;" src="https://imgur.com/nN90U8r" width="19%" >
+<img  src="https://i.imgur.com/wTXzOr4.png" width="19%" >
+<img style="margin-left:10px;" src="https://i.imgur.com/nN90U8r.png" width="19%" >
 
 </div>
