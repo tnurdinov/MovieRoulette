@@ -1,8 +1,6 @@
 package com.tnurdinov.movieroulette
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.experimental.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -20,12 +18,8 @@ interface ThemoviedbService {
     companion object {
         fun create(): ThemoviedbService {
 
-            val moshi = Moshi.Builder()
-                    .add(KotlinJsonAdapterFactory())
-                    .build()
-
             val retrofit = Retrofit.Builder()
-                    .addConverterFactory(MoshiConverterFactory.create(moshi))
+                    .addConverterFactory(MoshiConverterFactory.create())
                     .addCallAdapterFactory(CoroutineCallAdapterFactory())
                     .baseUrl(BuildConfig.TMDB_BASE_URL)
                     .build()

@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity() {
             val ratedReponse = ThemoviedbService.create().getTopRatedMovies().await()
             val firstMovie = ThemoviedbService.create().getMovieDetails(ratedReponse.results?.get(rand.nextInt(ratedReponse.results.size)+1)?.id!!).await()
 
-            Log.d("TAG", firstMovie.posterPath)
-            Picasso.get().load(BuildConfig.TMDB_IMG_URL + "w780${firstMovie.backdropPath}").into(poster)
+            Log.d("TAG", firstMovie.poster_path)
+            Picasso.get().load(BuildConfig.TMDB_IMG_URL + "w780${firstMovie.backdrop_path}").into(poster)
             name?.text = firstMovie.title
-            year?.text = String.format(getString(R.string.release_date), firstMovie.releaseDate)
-            rating?.text = String.format(getString(R.string.rating), firstMovie.voteAverage)
+            year?.text = String.format(getString(R.string.release_date), firstMovie.release_date)
+            rating?.text = String.format(getString(R.string.rating), firstMovie.vote_average)
             description?.text = firstMovie.overview
         }
 
