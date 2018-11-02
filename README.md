@@ -1,6 +1,8 @@
 # MovieRoulette
 Movie Roulette app, MVVM, Clean Architecture
 
+[![CircleCI](https://circleci.com/gh/tnurdinov/MovieRoulette/tree/develop.svg?style=svg&circle-token=54861fd7e229b4dd39ce305891b8ff71c95cb17b)](https://circleci.com/gh/tnurdinov/MovieRoulette/tree/develop)
+
 
 <a href="https://play.google.com/store/apps/details?id=com.tnurdinov.movieroulette">
     <img alt="Get it on Google Play"
