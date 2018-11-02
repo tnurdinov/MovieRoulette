@@ -8,15 +8,15 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ThemoviedbService {
+interface TheMovieDBService {
     @GET("3/movie/top_rated")
-    fun getTopRatedMovies(@Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY, @Query("page") page: Int = 1) : Deferred<TopRatedReponse>
+    fun getTopRatedMovies(@Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY, @Query("page") page: Int = 1) : Deferred<TopRatedResponse>
 
     @GET("3/movie/{id}")
     fun getMovieDetails(@Path("id") id: Long, @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY): Deferred<MovieDetails>
 
     companion object {
-        fun create(): ThemoviedbService {
+        fun create(): TheMovieDBService {
 
             val retrofit = Retrofit.Builder()
                     .addConverterFactory(MoshiConverterFactory.create())
@@ -24,7 +24,7 @@ interface ThemoviedbService {
                     .baseUrl(BuildConfig.TMDB_BASE_URL)
                     .build()
 
-            return retrofit.create(ThemoviedbService::class.java)
+            return retrofit.create(TheMovieDBService::class.java)
         }
     }
 }

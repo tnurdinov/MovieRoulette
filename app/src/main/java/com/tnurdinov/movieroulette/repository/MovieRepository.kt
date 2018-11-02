@@ -1,10 +1,12 @@
 package com.tnurdinov.movieroulette.repository
 
 import com.tnurdinov.movieroulette.MovieDetails
-import com.tnurdinov.movieroulette.ThemoviedbService
+import com.tnurdinov.movieroulette.TheMovieDBService
 
 class MovieRepository {
     suspend fun getRandomMovie(): MovieDetails {
-        return ThemoviedbService.create().getMovieDetails(3).await()
+        val ratedResponse = TheMovieDBService.create().getTopRatedMovies().await()
+        val random = ratedResponse.results?.random()
+        return TheMovieDBService.create().getMovieDetails(random?.id ?: 24420).await()
     }
 }

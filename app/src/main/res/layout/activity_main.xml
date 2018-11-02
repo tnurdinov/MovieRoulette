@@ -17,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:fitsSystemWindows="true"
-            tools:src="@tools:sample/backgrounds/scenic"
-            android:scaleType="centerCrop"/>
+            tools:src="@tools:sample/backgrounds/scenic" />
 
         <TextView
             android:id="@+id/movie_name"

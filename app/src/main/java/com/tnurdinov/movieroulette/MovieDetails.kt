@@ -11,7 +11,7 @@ data class MovieDetails(
     var budget: Int = 0,
     var genres: List<Genre>? = null,
     var homepage: Any? = null,
-    var id: Int = 0,
+    var id: Long = 0,
     var imdb_id: String? = null,
     var original_language: String? = null,
     var original_title: String? = null,

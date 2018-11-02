@@ -39,43 +39,40 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
-    implementation('com.squareup.retrofit2:retrofit:2.4.0') {
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version") {
         exclude module: 'okhttp'
         exclude module: 'okio'
     }
-    implementation('com.squareup.retrofit2:converter-moshi:2.4.0') {
+    implementation("com.squareup.retrofit2:converter-moshi:$retrofit_version") {
         exclude module: 'retrofit'
         exclude module: 'moshi'
         exclude module: 'okio'
     }
-    implementation('com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2') {
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofit_coroutines_version") {
         exclude module: 'retrofit'
         exclude module: 'kotlin-stdlib'
         exclude module: 'kotlinx-coroutines-core'
     }
 
-    implementation('com.squareup.okhttp3:okhttp:3.10.0') {
+    implementation("com.squareup.okhttp3:okhttp:$okhttp_version") {
         exclude module: 'okio'
     }
-    implementation('com.squareup.moshi:moshi:1.6.0') {
+    implementation("com.squareup.moshi:moshi:$moshi_version") {
         exclude module: 'okio'
     }
-    implementation 'com.squareup.okio:okio:1.14.1'
+    implementation "com.squareup.okio:okio:$okio_version"
 
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.6.0'
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_kotlin_codegen_version"
 
-    implementation('com.squareup.picasso:picasso:2.71828') {
-        exclude module: 'support-annotations'
-        exclude module: 'exifinterface'
-        exclude module: 'okhttp'
-    }
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0'
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'

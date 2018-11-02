@@ -12,11 +12,11 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class MovieViewModel: ViewModel(), CoroutineScope {
-    val job = Job()
+    private val job = Job()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
-    val randomMovie: MutableLiveData<MovieDetails> = MutableLiveData()
+    private val randomMovie: MutableLiveData<MovieDetails> = MutableLiveData()
 
     private val repository: MovieRepository = MovieRepository()
 
