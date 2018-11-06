@@ -11,7 +11,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class MovieViewModel: ViewModel(), CoroutineScope {
+class MovieViewModel : ViewModel(), CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
@@ -21,17 +21,21 @@ class MovieViewModel: ViewModel(), CoroutineScope {
     private val repository: MovieRepository = MovieRepository()
 
     fun getRandomMovie() {
-        launch {
-            randomMovie.postValue(repository.getRandomMovie())
+        try {
+            launch {
+                randomMovie.postValue(repository.getRandomMovie())
+            }
+        } catch (e: Exception) {
+
         }
     }
 
-    fun observeMovie():LiveData<MovieDetails> {
+    fun observeMovieDetails():LiveData<MovieDetails> {
         return randomMovie
     }
 
     override fun onCleared() {
-        job.cancel()
         super.onCleared()
+        job.cancel()
     }
 }

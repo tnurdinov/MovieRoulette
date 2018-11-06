@@ -1,6 +1,6 @@
 package com.tnurdinov.movieroulette
 
-data class Result(
+data class MovieShort(
         val vote_count: Int,
         val id: Long,
         val video: Boolean,
