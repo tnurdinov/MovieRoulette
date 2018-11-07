@@ -17,6 +17,7 @@ class MovieViewModel : ViewModel(), CoroutineScope {
         get() = job + Dispatchers.Main
 
     private val randomMovie: MutableLiveData<MovieDetails> = MutableLiveData()
+    private val errorMessage: MutableLiveData<String> = MutableLiveData()
 
     private val repository: MovieRepository = MovieRepository()
 
@@ -25,13 +26,17 @@ class MovieViewModel : ViewModel(), CoroutineScope {
             launch {
                 randomMovie.postValue(repository.getRandomMovie())
             }
-        } catch (e: Exception) {
-
+        } catch (e: Throwable) {
+            errorMessage.postValue(e.localizedMessage)
         }
     }
 
-    fun observeMovieDetails():LiveData<MovieDetails> {
+    fun observeMovieDetails(): LiveData<MovieDetails> {
         return randomMovie
+    }
+
+    fun observeError(): LiveData<String> {
+        return errorMessage
     }
 
     override fun onCleared() {
