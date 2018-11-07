@@ -7,19 +7,20 @@ jobs:
       - image: circleci/android:api-28
     environment:
       JVM_OPTS: -Xmx3200m
-      TERM: dumb
-    
     steps:
       - checkout
-
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-        name: Write api key to local properties
-        command: echo "tmdb_api_key=some_key_here" > ${HOME}/local.properties
-
+          name: Write api key to local properties
+          command: echo "tmdb_api_key=some_key_here" > ${HOME}/local.properties
       - run:
-        name: Download Dependencies
-        command: ./gradlew androidDependencies
-
-        
-      # run tests!
-      - run: gradle test
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Run Tests
+          command: ./gradlew lint test
