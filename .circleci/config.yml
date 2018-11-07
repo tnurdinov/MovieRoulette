@@ -13,7 +13,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Write api key to local properties
-          command: echo "tmdb_api_key=some_key_here" > ${HOME}/local.properties
+          command: echo "tmdb_api_key=some_key_here" > local.properties
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
