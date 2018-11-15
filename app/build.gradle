@@ -18,8 +18,8 @@ android {
         applicationId "com.tnurdinov.movieroulette"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.1.0"
         buildConfigField "String", "TMDB_API_KEY", "\"$api_key\""
         buildConfigField "String", "TMDB_BASE_URL", "\"https://api.themoviedb.org/\""
         buildConfigField "String", "TMDB_IMG_URL", "\"https://image.tmdb.org/t/p/\""
@@ -34,6 +34,17 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/main.kotlin_module'
+    }
+    bundle {
+        language {
+            enableSplit = true
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = false
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-package com.tnurdinov.movieroulette
+package com.tnurdinov.movieroulette.model
 
 data class ProductionCompany(
         var id: Int = 0,

@@ -1,4 +1,4 @@
-package com.tnurdinov.movieroulette
+package com.tnurdinov.movieroulette.model
 
 data class MovieShort(
         val vote_count: Int,

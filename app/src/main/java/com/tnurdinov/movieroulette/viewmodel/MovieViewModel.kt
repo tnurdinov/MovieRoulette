@@ -3,7 +3,7 @@ package com.tnurdinov.movieroulette.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tnurdinov.movieroulette.MovieDetails
+import com.tnurdinov.movieroulette.model.MovieDetails
 import com.tnurdinov.movieroulette.repository.MovieRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

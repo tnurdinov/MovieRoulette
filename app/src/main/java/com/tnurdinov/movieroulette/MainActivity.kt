@@ -10,6 +10,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tnurdinov.movieroulette.viewmodel.MovieViewModel
 import androidx.lifecycle.ViewModelProviders
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.tnurdinov.movieroulette.model.MovieDetails
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rating: TextView
     private lateinit var description: TextView
     private lateinit var fab: FloatingActionButton
+    private var circularProgressDrawable:CircularProgressDrawable? = null
 
     private val viewModel: MovieViewModel by lazy {
         ViewModelProviders.of(this).get(MovieViewModel::class.java)
@@ -41,13 +45,26 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getRandomMovie()
 
+        circularProgressDrawable = CircularProgressDrawable(this)
+        circularProgressDrawable?.strokeWidth = 5f
+        circularProgressDrawable?.centerRadius = 100f
+        circularProgressDrawable?.start()
+
         observeMovieDetail()
     }
 
     private fun observeMovieDetail() {
-        val options = RequestOptions().optionalCenterCrop()
+
+        val options = RequestOptions()
+                .optionalCenterCrop()
+                .placeholder(circularProgressDrawable)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+
         val observer = Observer<MovieDetails> { movie ->
-            Glide.with(this).load("${BuildConfig.TMDB_IMG_URL}w500${movie?.backdrop_path}").apply(options).into(poster)
+            Glide.with(this)
+                    .load("${BuildConfig.TMDB_IMG_URL}w500${movie?.backdrop_path}")
+                    .apply(options)
+                    .into(poster)
             name.text = movie?.title
             year.text = String.format(getString(R.string.release_date), movie?.release_date)
             rating.text = String.format(getString(R.string.rating), movie?.vote_average)
