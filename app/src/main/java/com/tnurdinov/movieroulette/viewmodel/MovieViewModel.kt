@@ -19,7 +19,9 @@ class MovieViewModel : ViewModel(), CoroutineScope {
     private val randomMovie: MutableLiveData<MovieDetails> = MutableLiveData()
     private val errorMessage: MutableLiveData<String> = MutableLiveData()
 
-    private val repository: MovieRepository = MovieRepository()
+    private val repository by lazy {
+        MovieRepository()
+    }
 
     fun getRandomMovie() {
         try {

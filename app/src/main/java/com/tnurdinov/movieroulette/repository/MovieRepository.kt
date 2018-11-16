@@ -5,10 +5,15 @@ import com.tnurdinov.movieroulette.TheMovieDBService
 import kotlin.random.Random
 
 class MovieRepository {
+
+    private val movieService by lazy {
+        TheMovieDBService.create()
+    }
+
     suspend fun getRandomMovie(): MovieDetails {
         val randomPageNum = Random.nextInt(0, 320)
-        val ratedResponse = TheMovieDBService.create().getTopRatedMovies(page = randomPageNum).await()
+        val ratedResponse = movieService.getTopRatedMovies(page = randomPageNum).await()
         val random = ratedResponse.results?.random()
-        return TheMovieDBService.create().getMovieDetails(random?.id ?: 24420).await()
+        return movieService.getMovieDetails(random?.id ?: 24420).await()
     }
 }

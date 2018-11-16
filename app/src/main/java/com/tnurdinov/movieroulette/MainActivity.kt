@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         val observer = Observer<MovieDetails> { movie ->
             Glide.with(this)
-                    .load("${BuildConfig.TMDB_IMG_URL}w500${movie?.backdrop_path}")
+                    .load("${BuildConfig.TMDB_IMG_URL}w780${movie?.backdrop_path}")
                     .apply(options)
                     .into(poster)
             name.text = movie?.title
