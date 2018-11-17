@@ -1,8 +1,8 @@
 # Movie Roulette 📽 (work-in-progress 👨‍💻👩‍💻)
 
-Movie Roulette is a **work-in-progress** movie suggestion Android app witch connects to themoviedb.org.
- It just passed first release state. Currently only MVP functionality implemented.
-
+Movie Roulette is a **work-in-progress** movie suggestion Android app which connects to themoviedb.org.
+ It just passed first release state. Currently, only MVP functionality implemented.
+ 
 ## Android development
 
 Movie Roulette is an app which attempts to use the latest cutting edge libraries and tools. As a summary:
@@ -52,10 +52,9 @@ tmdb_api_key=YOUR_API_KEY
 
 If you've found an error in this sample, please file an issue.
 
-Patches are encouraged, and may be submitted by forking this project and
+Patches are encouraged and may be submitted by forking this project and
 submitting a pull request. Since this project is still in its very early stages,
 if your change is substantial, please raise an issue first to discuss it.
-
 
 ## License
 
