@@ -13,17 +13,18 @@ def api_key = properties.getProperty('tmdb_api_key')
 
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.tnurdinov.movieroulette"
         minSdkVersion 19
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 28
+        versionCode 3
+        versionName "1.1.0"
         buildConfigField "String", "TMDB_API_KEY", "\"$api_key\""
         buildConfigField "String", "TMDB_BASE_URL", "\"https://api.themoviedb.org/\""
         buildConfigField "String", "TMDB_IMG_URL", "\"https://image.tmdb.org/t/p/\""
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -31,28 +32,63 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/main.kotlin_module'
+    }
+    bundle {
+        language {
+            enableSplit = true
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = false
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
-    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0'
+    implementation "com.google.android.material:material:1.1.0-alpha01"
 
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation 'com.squareup.moshi:moshi-kotlin:1.6.0'
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.6.0'
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version") {
+        exclude module: 'okhttp'
+        exclude module: 'okio'
+    }
+    implementation("com.squareup.retrofit2:converter-moshi:$retrofit_version") {
+        exclude module: 'retrofit'
+        exclude module: 'moshi'
+        exclude module: 'okio'
+    }
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofit_coroutines_version") {
+        exclude module: 'retrofit'
+        exclude module: 'kotlin-stdlib'
+        exclude module: 'kotlinx-coroutines-core'
+    }
 
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation("com.squareup.okhttp3:okhttp:$okhttp_version") {
+        exclude module: 'okio'
+    }
+    implementation("com.squareup.moshi:moshi:$moshi_version") {
+        exclude module: 'okio'
+    }
+    implementation "com.squareup.okio:okio:$okio_version"
+
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_kotlin_codegen_version"
+
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 }
