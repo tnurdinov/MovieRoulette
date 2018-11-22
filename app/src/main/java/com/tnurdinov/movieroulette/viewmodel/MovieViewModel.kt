@@ -1,7 +1,6 @@
 package com.tnurdinov.movieroulette.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tnurdinov.movieroulette.model.MovieDetails
 import com.tnurdinov.movieroulette.repository.MovieRepository
@@ -16,39 +15,28 @@ class MovieViewModel : ViewModel(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
-    private val randomMovie: MutableLiveData<MovieDetails> = MutableLiveData()
-    private val errorMessage: MutableLiveData<String> = MutableLiveData()
-
     private val repository by lazy {
         MovieRepository()
     }
 
     fun getRandomMovie() {
-        try {
-            launch {
-                randomMovie.postValue(repository.getRandomMovie())
-            }
-        } catch (e: Throwable) {
-            errorMessage.postValue(e.localizedMessage)
+        launch {
+            repository.getRandomMovie()
         }
     }
 
     fun showLastMovie(lastMovieId: Long) {
-        try {
-            launch {
-                randomMovie.postValue(repository.getLast(lastMovieId))
-            }
-        } catch (e: Throwable) {
-            errorMessage.postValue(e.localizedMessage)
+        launch {
+            repository.getLast(lastMovieId)
         }
     }
 
     fun observeMovieDetails(): LiveData<MovieDetails> {
-        return randomMovie
+        return repository.observeMovieDetails()
     }
 
     fun observeError(): LiveData<String> {
-        return errorMessage
+        return repository.observeErrorMsg()
     }
 
     override fun onCleared() {
