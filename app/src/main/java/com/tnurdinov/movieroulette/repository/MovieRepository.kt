@@ -16,4 +16,8 @@ class MovieRepository {
         val random = ratedResponse.results?.random()
         return movieService.getMovieDetails(random?.id ?: 24420).await()
     }
+
+    suspend fun getLast(lastMovieId: Long): MovieDetails {
+        return movieService.getMovieDetails(lastMovieId).await()
+    }
 }

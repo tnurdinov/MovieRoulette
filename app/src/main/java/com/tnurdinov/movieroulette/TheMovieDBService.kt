@@ -22,6 +22,7 @@ interface TheMovieDBService {
             val retrofit = Retrofit.Builder()
                     .addConverterFactory(MoshiConverterFactory.create())
                     .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                    .client(HttpClientHolder.client)
                     .baseUrl(BuildConfig.TMDB_BASE_URL)
                     .build()
 

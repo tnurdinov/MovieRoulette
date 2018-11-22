@@ -33,6 +33,16 @@ class MovieViewModel : ViewModel(), CoroutineScope {
         }
     }
 
+    fun showLastMovie(lastMovieId: Long) {
+        try {
+            launch {
+                randomMovie.postValue(repository.getLast(lastMovieId))
+            }
+        } catch (e: Throwable) {
+            errorMessage.postValue(e.localizedMessage)
+        }
+    }
+
     fun observeMovieDetails(): LiveData<MovieDetails> {
         return randomMovie
     }
