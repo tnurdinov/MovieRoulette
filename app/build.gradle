@@ -18,8 +18,8 @@ android {
         applicationId "com.tnurdinov.movieroulette"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.1.0"
+        versionCode 4
+        versionName "1.1.1"
         buildConfigField "String", "TMDB_API_KEY", "\"$api_key\""
         buildConfigField "String", "TMDB_BASE_URL", "\"https://api.themoviedb.org/\""
         buildConfigField "String", "TMDB_IMG_URL", "\"https://image.tmdb.org/t/p/\""
