@@ -48,14 +48,6 @@
 -keep public class kotlin.reflect.jvm.internal.impl.builtins.* { public *; }
 -keep public class kotlin.reflect.jvm.internal.impl.serialization.deserialization.builtins.* { public *; }
 
-# Glide
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.module.AppGlideModule
--keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
-
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
 # EnclosingMethod is required to use InnerClasses.
 -keepattributes Signature, InnerClasses, EnclosingMethod
@@ -87,6 +79,7 @@
 # OkHttp platform used only on JVM and when Conscrypt dependency is available.
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
 
+-dontwarn com.jakewharton.picasso.OkHttp3Downloader
 
 # Okhttp + Okio
 -dontwarn okhttp3.**

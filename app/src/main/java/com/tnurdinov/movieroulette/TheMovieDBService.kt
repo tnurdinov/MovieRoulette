@@ -10,10 +10,10 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TheMovieDBService {
-    @GET("3/movie/top_rated")
+    @GET("movie/top_rated")
     fun getTopRatedMovies(@Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY, @Query("page") page: Int = 1) : Deferred<TopRatedResponse>
 
-    @GET("3/movie/{id}")
+    @GET("movie/{id}")
     fun getMovieDetails(@Path("id") id: Long, @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY): Deferred<MovieDetails>
 
     companion object {

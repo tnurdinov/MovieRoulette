@@ -7,11 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
+import com.squareup.picasso.OkHttp3Downloader
+import com.squareup.picasso.Picasso
+import com.tnurdinov.movieroulette.Constants.LAST_MOVIE_ID
+import com.tnurdinov.movieroulette.Constants.PREFS_FILENAME
 import com.tnurdinov.movieroulette.model.MovieDetails
 import com.tnurdinov.movieroulette.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,8 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private var circularProgressDrawable: CircularProgressDrawable? = null
-    private val PREFS_FILENAME = "com.teamtreehouse.colorsarefun.prefs"
-    private val LAST_MOVIE_ID = "last_movie_id"
+    private lateinit var  picasso: Picasso
 
 
     private val viewModel: MovieViewModel by lazy {
@@ -39,37 +39,39 @@ class MainActivity : AppCompatActivity() {
             viewModel.getRandomMovie()
         }
 
-        circularProgressDrawable = CircularProgressDrawable(this)
-        circularProgressDrawable?.strokeWidth = 5f
-        circularProgressDrawable?.centerRadius = 100f
-        circularProgressDrawable?.start()
-
         sharedPreference.getLong(LAST_MOVIE_ID, 0).let { lastMovieId ->
-            when(lastMovieId) {
-                0L -> viewModel.getRandomMovie()
-                else -> viewModel.showLastMovie(lastMovieId)
-            }
+            viewModel.requestMovieToShow(lastMovieId)
         }
+
+        initPicasso()
+
+        initCircularDrawable()
 
         observeMovieDetail()
         observeError()
     }
 
+    private fun initPicasso() {
+        val okHttpClient = HttpClientHolder.client
+        picasso = Picasso.Builder(this)
+                .downloader(OkHttp3Downloader(okHttpClient))
+                .build()
+    }
+
+    private fun initCircularDrawable() {
+        circularProgressDrawable = CircularProgressDrawable(this)
+        circularProgressDrawable?.strokeWidth = 5f
+        circularProgressDrawable?.centerRadius = 100f
+        circularProgressDrawable?.start()
+    }
+
     private fun observeMovieDetail() {
-
-        val options = RequestOptions()
-                .optionalCenterCrop()
-                .placeholder(circularProgressDrawable)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-
         val observer = Observer<MovieDetails> { movie ->
             sharedPreference.edit().putLong(LAST_MOVIE_ID, movie?.id ?: 0).apply()
-            Glide.with(this)
-                    .load("${BuildConfig.TMDB_IMG_URL}w780${movie?.backdrop_path}")
-                    .apply(options)
+            picasso.load("${BuildConfig.TMDB_IMG_URL}w780${movie?.backdrop_path}")
+                    .placeholder(circularProgressDrawable!!)
                     .into(movie_backdrop)
-            Glide.with(this)
-                    .load("${BuildConfig.TMDB_IMG_URL}w342${movie?.poster_path}")
+            picasso.load("${BuildConfig.TMDB_IMG_URL}w342${movie?.poster_path}")
                     .into(movie_poster)
             movie_name.text = movie?.title
             movie_year.text = String.format(getString(R.string.release_date), movie?.release_date)

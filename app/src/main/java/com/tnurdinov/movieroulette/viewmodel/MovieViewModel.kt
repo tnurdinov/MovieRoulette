@@ -29,7 +29,7 @@ class MovieViewModel : ViewModel(), CoroutineScope {
         }
     }
 
-    fun showLastMovie(lastMovieId: Long) = launch {
+    private fun showLastMovie(lastMovieId: Long) = launch {
         val lastMovie = repository.getLast(lastMovieId)
         when (lastMovie) {
             is MovieResult.Success -> randomMovie.postValue(lastMovie.details)
@@ -48,5 +48,12 @@ class MovieViewModel : ViewModel(), CoroutineScope {
     override fun onCleared() {
         super.onCleared()
         coroutineContext.cancelChildren()
+    }
+
+    fun requestMovieToShow(lastMovieId: Long) {
+        when(lastMovieId) {
+            0L -> getRandomMovie()
+            else -> showLastMovie(lastMovieId)
+        }
     }
 }
