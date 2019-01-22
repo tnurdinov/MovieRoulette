@@ -13,6 +13,8 @@ import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import com.tnurdinov.movieroulette.Constants.LAST_MOVIE_ID
 import com.tnurdinov.movieroulette.Constants.PREFS_FILENAME
+import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_FROM
+import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_TILL
 import com.tnurdinov.movieroulette.model.MovieDetails
 import com.tnurdinov.movieroulette.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,6 +44,11 @@ class MainActivity : AppCompatActivity() {
         sharedPreference.getLong(LAST_MOVIE_ID, 0).let { lastMovieId ->
             viewModel.requestMovieToShow(lastMovieId)
         }
+
+        val releaseDateFrom = sharedPreference.getString(RELEASE_DATE_FROM, "")
+        val releaseDateTill = sharedPreference.getString(RELEASE_DATE_TILL, "")
+
+
 
         initPicasso()
 

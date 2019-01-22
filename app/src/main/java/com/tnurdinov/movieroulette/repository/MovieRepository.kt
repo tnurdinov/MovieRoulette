@@ -16,7 +16,7 @@ class MovieRepository {
         return try {
             val result = withContext(Dispatchers.IO) {
                 val randomPageNum = Random.nextInt(0, 320)
-                val ratedResponse = movieService.getTopRatedMovies(page = randomPageNum).await()
+                val ratedResponse = movieService.discoverMovies().await()
                 val random = ratedResponse.results?.random()
                 movieService.getMovieDetails(random?.id ?: 24420).await()
             }

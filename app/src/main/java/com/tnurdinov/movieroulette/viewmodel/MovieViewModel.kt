@@ -22,7 +22,9 @@ class MovieViewModel : ViewModel(), CoroutineScope {
     }
 
     fun getRandomMovie() = launch {
-        val rMovie = repository.getRandomMovie()
+        val rMovie = withContext(Dispatchers.IO) {
+            repository.getRandomMovie()
+        }
         when (rMovie) {
             is MovieResult.Success -> randomMovie.postValue(rMovie.details)
             is MovieResult.Error -> errorMessage.postValue(rMovie.error.localizedMessage)
@@ -30,7 +32,9 @@ class MovieViewModel : ViewModel(), CoroutineScope {
     }
 
     private fun showLastMovie(lastMovieId: Long) = launch {
-        val lastMovie = repository.getLast(lastMovieId)
+        val lastMovie = withContext(Dispatchers.IO) {
+            repository.getLast(lastMovieId)
+        }
         when (lastMovie) {
             is MovieResult.Success -> randomMovie.postValue(lastMovie.details)
             is MovieResult.Error -> errorMessage.postValue(lastMovie.error.localizedMessage)
