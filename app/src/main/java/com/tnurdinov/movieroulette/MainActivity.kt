@@ -1,6 +1,7 @@
 package com.tnurdinov.movieroulette
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        bar.replaceMenu(R.menu.main)
+
+        bar.setNavigationOnClickListener {
+            // do something interesting on navigation click
+        }
+
+        bar.setOnMenuItemClickListener { item ->
+            when(item.itemId) {
+                R.id.filter -> {
+                    startActivity(Intent(this@MainActivity, FilterActivity::class.java))
+                    return@setOnMenuItemClickListener true
+                }
+            }
+            return@setOnMenuItemClickListener true
+        }
 
         fab.setOnClickListener {
             viewModel.getRandomMovie()

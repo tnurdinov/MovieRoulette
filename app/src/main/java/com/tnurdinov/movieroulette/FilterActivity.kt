@@ -15,8 +15,6 @@ import java.util.*
 
 class FilterActivity : AppCompatActivity() {
 
-    private val calendar = Calendar.getInstance()
-
     private val sharedPreference: SharedPreferences by lazy {
         this.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
     }
@@ -25,60 +23,75 @@ class FilterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter)
 
+        from_date_tv.text = "1900-01-01"
+        updateToLabel(getDateFormat().format(Date().time))
+
+
         val fromDatePickerListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            val calendar = Calendar.getInstance()
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateFromLabel()
+            val dateText = getDateFormat().format(calendar.time)
+            updateFromLabel(dateText)
+            saveFromDate(dateText)
         }
 
         val toDatePickerListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            val calendar = Calendar.getInstance()
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateToLabel()
+            val dateText = getDateFormat().format(calendar.time)
+            updateToLabel(dateText)
+            saveTillDate(dateText)
         }
 
         from_date_tv.setOnClickListener {
+            val cal = getCalendarWithDate("1900-01-01")
             DatePickerDialog(
-                    this@FilterActivity, fromDatePickerListener, calendar
-                    .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
+                    this@FilterActivity, fromDatePickerListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
 
         to_date_tv.setOnClickListener {
+            val cal = getCalendarWithDate(getDateFormat().format(Date().time))
             DatePickerDialog(
-                    this@FilterActivity, toDatePickerListener, calendar
-                    .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
+                    this@FilterActivity, toDatePickerListener, cal
+                    .get(Calendar.YEAR), cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
     }
 
-    private fun updateFromLabel() {
-        val myFormat = "yyyy-MM-DD"
-        val sdf = SimpleDateFormat(myFormat, Locale.US)
-        val formattedText = sdf.format(calendar.time)
-        from_date_tv.text = formattedText
-        setFromDate(formattedText)
+    private fun updateFromLabel(dateText: String) {
+        from_date_tv.text = dateText
     }
 
-    private fun updateToLabel() {
-        val myFormat = "yyyy-MM-DD"
-        val sdf = SimpleDateFormat(myFormat, Locale.US)
-        val formattedText = sdf.format(calendar.time)
-        to_date_tv.text = formattedText
-        setTillDate(formattedText)
+    private fun updateToLabel(dateText: String) {
+        to_date_tv.text = dateText
     }
 
-    private fun setFromDate(fromDate: String) {
+    private fun getDateFormat(): SimpleDateFormat {
+        val dateFormat = "yyyy-MM-dd"
+        return SimpleDateFormat(dateFormat, Locale.US)
+    }
+
+    private fun getCalendarWithDate(dateStr: String): Calendar {
+        val date = getDateFormat().parse(dateStr)
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        return calendar
+    }
+
+    private fun saveFromDate(fromDate: String) {
         sharedPreference.edit {
             putString(RELEASE_DATE_FROM, fromDate)
         }
     }
 
-    private fun setTillDate(tillDate: String) {
+    private fun saveTillDate(tillDate: String) {
         sharedPreference.edit {
             putString(RELEASE_DATE_TILL, tillDate)
         }
