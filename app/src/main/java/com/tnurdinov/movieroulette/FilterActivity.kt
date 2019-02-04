@@ -4,16 +4,25 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import com.tnurdinov.movieroulette.Constants.PREFS_FILENAME
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_FROM
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_TILL
-import kotlinx.android.synthetic.main.activity_filter.*
+import com.tnurdinov.movieroulette.Extentions.lazyUnsynchronized
 import java.text.SimpleDateFormat
 import java.util.*
 
 class FilterActivity : AppCompatActivity() {
+
+    private val fromDateTv by lazyUnsynchronized {
+        findViewById<TextView>(R.id.from_date_tv)
+    }
+
+    private val tillDateTv by lazyUnsynchronized {
+        findViewById<TextView>(R.id.to_date_tv)
+    }
 
     private val sharedPreference: SharedPreferences by lazy {
         this.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
@@ -23,7 +32,7 @@ class FilterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter)
 
-        from_date_tv.text = "1900-01-01"
+        fromDateTv.text = "1900-01-01"
         updateToLabel(getDateFormat().format(Date().time))
 
 
@@ -47,7 +56,7 @@ class FilterActivity : AppCompatActivity() {
             saveTillDate(dateText)
         }
 
-        from_date_tv.setOnClickListener {
+        fromDateTv.setOnClickListener {
             val cal = getCalendarWithDate("1900-01-01")
             DatePickerDialog(
                     this@FilterActivity, fromDatePickerListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
@@ -55,7 +64,7 @@ class FilterActivity : AppCompatActivity() {
             ).show()
         }
 
-        to_date_tv.setOnClickListener {
+        tillDateTv.setOnClickListener {
             val cal = getCalendarWithDate(getDateFormat().format(Date().time))
             DatePickerDialog(
                     this@FilterActivity, toDatePickerListener, cal
@@ -66,11 +75,11 @@ class FilterActivity : AppCompatActivity() {
     }
 
     private fun updateFromLabel(dateText: String) {
-        from_date_tv.text = dateText
+        fromDateTv.text = dateText
     }
 
     private fun updateToLabel(dateText: String) {
-        to_date_tv.text = dateText
+        tillDateTv.text = dateText
     }
 
     private fun getDateFormat(): SimpleDateFormat {
