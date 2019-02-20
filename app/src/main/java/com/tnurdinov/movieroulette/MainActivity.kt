@@ -21,7 +21,7 @@ import com.tnurdinov.movieroulette.Constants.LAST_MOVIE_ID
 import com.tnurdinov.movieroulette.Constants.PREFS_FILENAME
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_FROM
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_TILL
-import com.tnurdinov.movieroulette.Extentions.lazyUnsynchronized
+import com.tnurdinov.movieroulette.extensions.lazyUnsynchronized
 import com.tnurdinov.movieroulette.model.MovieDetails
 import com.tnurdinov.movieroulette.viewmodel.MovieViewModel
 

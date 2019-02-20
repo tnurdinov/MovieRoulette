@@ -4,24 +4,34 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.TextView
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatSeekBar
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.edit
 import com.tnurdinov.movieroulette.Constants.PREFS_FILENAME
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_FROM
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_TILL
-import com.tnurdinov.movieroulette.Extentions.lazyUnsynchronized
+import com.tnurdinov.movieroulette.extensions.lazyUnsynchronized
 import java.text.SimpleDateFormat
 import java.util.*
 
 class FilterActivity : AppCompatActivity() {
 
     private val fromDateTv by lazyUnsynchronized {
-        findViewById<TextView>(R.id.from_date_tv)
+        findViewById<AppCompatTextView>(R.id.from_date_tv)
     }
 
     private val tillDateTv by lazyUnsynchronized {
-        findViewById<TextView>(R.id.to_date_tv)
+        findViewById<AppCompatTextView>(R.id.to_date_tv)
+    }
+
+    private val ratingTv by lazyUnsynchronized {
+        findViewById<AppCompatTextView>(R.id.rating)
+    }
+
+    private val ratingSeekBar by lazyUnsynchronized {
+        findViewById<AppCompatSeekBar>(R.id.rating_seek)
     }
 
     private val sharedPreference: SharedPreferences by lazy {
@@ -72,6 +82,19 @@ class FilterActivity : AppCompatActivity() {
                     cal.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
+
+        ratingSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                ratingTv.text = progress.toString()
+            }
+        })
+
     }
 
     private fun updateFromLabel(dateText: String) {
