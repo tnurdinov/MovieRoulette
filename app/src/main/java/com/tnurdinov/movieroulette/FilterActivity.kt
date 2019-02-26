@@ -100,7 +100,8 @@ class FilterActivity : AppCompatActivity() {
             }
 
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                ratingTv.text = progress.toString()
+                val minRateText = getString(R.string.minimum_rating, progress.toString())
+                ratingTv.text = minRateText
             }
         })
 

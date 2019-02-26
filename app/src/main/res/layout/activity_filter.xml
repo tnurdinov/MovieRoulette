@@ -24,7 +24,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/filter_toolbar" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/to_text"
@@ -36,7 +36,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/from_text"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/filter_toolbar" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/from_date_tv"
@@ -47,7 +47,7 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/from_text"
         app:layout_constraintTop_toBottomOf="@id/from_text"
-        tools:text="1970" />
+        tools:text="1970-01-01" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/to_date_tv"
@@ -58,7 +58,7 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/to_text"
         app:layout_constraintTop_toBottomOf="@id/to_text"
-        tools:text="2010" />
+        tools:text="2010-01-01" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/rating"
@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/from_date_tv"
-        tools:text="android" />
+        tools:text="MINIMUM RATING: 2" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/rating_seek"
