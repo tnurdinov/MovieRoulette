@@ -8,6 +8,7 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.edit
 import com.tnurdinov.movieroulette.Constants.PREFS_FILENAME
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_FROM
@@ -34,6 +35,10 @@ class FilterActivity : AppCompatActivity() {
         findViewById<AppCompatSeekBar>(R.id.rating_seek)
     }
 
+    private val toolbar by lazyUnsynchronized {
+        findViewById<Toolbar>(R.id.filter_toolbar)
+    }
+
     private val sharedPreference: SharedPreferences by lazy {
         this.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
     }
@@ -41,6 +46,10 @@ class FilterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_black_24dp)
+        supportActionBar?.setTitle(R.string.filters)
 
         fromDateTv.text = "1900-01-01"
         updateToLabel(getDateFormat().format(Date().time))
@@ -95,6 +104,11 @@ class FilterActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun updateFromLabel(dateText: String) {
