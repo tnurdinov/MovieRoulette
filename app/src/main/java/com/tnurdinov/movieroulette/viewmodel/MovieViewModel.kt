@@ -22,12 +22,12 @@ class MovieViewModel : ViewModel(), CoroutineScope {
     }
 
     fun getRandomMovie() = launch {
-        val rMovie = withContext(Dispatchers.IO) {
+        val result = withContext(Dispatchers.IO) {
             repository.getRandomMovie()
         }
-        when (rMovie) {
-            is MovieResult.Success -> randomMovie.postValue(rMovie.details)
-            is MovieResult.Error -> errorMessage.postValue(rMovie.error.localizedMessage)
+        when (result) {
+            is MovieResult.Success -> randomMovie.postValue(result.details)
+            is MovieResult.Error -> errorMessage.postValue(result.error.localizedMessage)
         }
     }
 

@@ -2,9 +2,6 @@ package com.tnurdinov.movieroulette.repository
 
 import com.tnurdinov.movieroulette.MovieResult
 import com.tnurdinov.movieroulette.TheMovieDBService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlin.random.Random
 
 class MovieRepository {
 
@@ -14,13 +11,10 @@ class MovieRepository {
 
     suspend fun getRandomMovie(): MovieResult {
         return try {
-            val result = withContext(Dispatchers.IO) {
-                val randomPageNum = Random.nextInt(0, 320)
-                val ratedResponse = movieService.discoverMovies().await()
-                val random = ratedResponse.results?.random()
-                movieService.getMovieDetails(random?.id ?: 24420).await()
-            }
-            MovieResult.Success(result)
+            val ratedResponse = movieService.discoverMovies().await()
+            val random = ratedResponse.results?.random()
+            val movieDetails = movieService.getMovieDetails(random?.id ?: 24420).await()
+            MovieResult.Success(movieDetails)
         } catch (exception: Exception) {
             MovieResult.Error(exception)
         }
@@ -28,10 +22,8 @@ class MovieRepository {
 
     suspend fun getLast(lastMovieId: Long): MovieResult {
         return try {
-            val result = withContext(Dispatchers.IO) {
-                movieService.getMovieDetails(lastMovieId).await()
-            }
-            MovieResult.Success(result)
+            val movieDetails = movieService.getMovieDetails(lastMovieId).await()
+            MovieResult.Success(movieDetails)
         } catch (exception: Exception) {
             MovieResult.Error(exception)
         }
