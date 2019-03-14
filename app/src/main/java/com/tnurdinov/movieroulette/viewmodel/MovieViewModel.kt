@@ -21,7 +21,7 @@ class MovieViewModel : ViewModel(), CoroutineScope {
         MovieRepository()
     }
 
-    fun getRandomMovie() = launch {
+    fun requestRandomMovie() = launch {
         val result = withContext(Dispatchers.IO) {
             repository.getRandomMovie()
         }
@@ -31,9 +31,9 @@ class MovieViewModel : ViewModel(), CoroutineScope {
         }
     }
 
-    private fun showLastMovie(lastMovieId: Long) = launch {
+    private fun requestLastMovie(movieId: Long) = launch {
         val lastMovie = withContext(Dispatchers.IO) {
-            repository.getLast(lastMovieId)
+            repository.getLast(movieId)
         }
         when (lastMovie) {
             is MovieResult.Success -> randomMovie.postValue(lastMovie.details)
@@ -41,11 +41,11 @@ class MovieViewModel : ViewModel(), CoroutineScope {
         }
     }
 
-    fun observeMovieDetails(): LiveData<MovieDetails> {
+    fun getObservableMovieDetail(): LiveData<MovieDetails> {
         return randomMovie
     }
 
-    fun observeError(): LiveData<String> {
+    fun getObservableErrorMsg(): LiveData<String> {
         return errorMessage
     }
 
@@ -56,8 +56,8 @@ class MovieViewModel : ViewModel(), CoroutineScope {
 
     fun requestMovieToShow(lastMovieId: Long) {
         when(lastMovieId) {
-            0L -> getRandomMovie()
-            else -> showLastMovie(lastMovieId)
+            0L -> requestRandomMovie()
+            else -> requestLastMovie(lastMovieId)
         }
     }
 }

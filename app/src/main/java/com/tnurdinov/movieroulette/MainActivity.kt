@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fab.setOnClickListener {
-            viewModel.getRandomMovie()
+            viewModel.requestRandomMovie()
         }
 
         sharedPreference.getLong(LAST_MOVIE_ID, 0).let { lastMovieId ->
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
             ratingTv.text = String.format(getString(R.string.rating), movie?.vote_average)
             summaryTv.text = movie?.overview
         }
-        viewModel.observeMovieDetails().observe(this, observer)
+        viewModel.getObservableMovieDetail().observe(this, observer)
     }
 
     private fun observeError() {
@@ -152,6 +152,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        viewModel.observeError().observe(this, observer)
+        viewModel.getObservableErrorMsg().observe(this, observer)
     }
 }
