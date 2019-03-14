@@ -10,7 +10,7 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class MovieViewModel : ViewModel(), CoroutineScope {
-    private val job = Job()
+    private val job = SupervisorJob()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
@@ -50,8 +50,8 @@ class MovieViewModel : ViewModel(), CoroutineScope {
     }
 
     override fun onCleared() {
-        super.onCleared()
         coroutineContext.cancelChildren()
+        super.onCleared()
     }
 
     fun requestMovieToShow(lastMovieId: Long) {
