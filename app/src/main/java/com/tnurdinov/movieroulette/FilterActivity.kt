@@ -6,38 +6,15 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatSeekBar
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.edit
 import com.tnurdinov.movieroulette.Constants.PREFS_FILENAME
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_FROM
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_TILL
-import com.tnurdinov.movieroulette.extensions.lazyUnsynchronized
+import kotlinx.android.synthetic.main.activity_filter.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class FilterActivity : AppCompatActivity() {
-
-    private val fromDateTv by lazyUnsynchronized {
-        findViewById<AppCompatTextView>(R.id.from_date_tv)
-    }
-
-    private val tillDateTv by lazyUnsynchronized {
-        findViewById<AppCompatTextView>(R.id.to_date_tv)
-    }
-
-    private val ratingTv by lazyUnsynchronized {
-        findViewById<AppCompatTextView>(R.id.rating)
-    }
-
-    private val ratingSeekBar by lazyUnsynchronized {
-        findViewById<AppCompatSeekBar>(R.id.rating_seek)
-    }
-
-    private val toolbar by lazyUnsynchronized {
-        findViewById<Toolbar>(R.id.filter_toolbar)
-    }
 
     private val sharedPreference: SharedPreferences by lazy {
         this.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
@@ -46,12 +23,12 @@ class FilterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(filter_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_black_24dp)
         supportActionBar?.setTitle(R.string.filters)
 
-        fromDateTv.text = "1900-01-01"
+        from_date_tv.text = "1900-01-01"
         updateToLabel(getDateFormat().format(Date().time))
 
 
@@ -75,7 +52,7 @@ class FilterActivity : AppCompatActivity() {
             saveTillDate(dateText)
         }
 
-        fromDateTv.setOnClickListener {
+        from_date_tv.setOnClickListener {
             val cal = getCalendarWithDate("1900-01-01")
             DatePickerDialog(
                     this@FilterActivity, fromDatePickerListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
@@ -83,7 +60,7 @@ class FilterActivity : AppCompatActivity() {
             ).show()
         }
 
-        tillDateTv.setOnClickListener {
+        to_date_tv.setOnClickListener {
             val cal = getCalendarWithDate(getDateFormat().format(Date().time))
             DatePickerDialog(
                     this@FilterActivity, toDatePickerListener, cal
@@ -92,7 +69,7 @@ class FilterActivity : AppCompatActivity() {
             ).show()
         }
 
-        ratingSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+        rating_seek.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
             }
 
@@ -101,7 +78,7 @@ class FilterActivity : AppCompatActivity() {
 
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val minRateText = getString(R.string.minimum_rating, progress.toString())
-                ratingTv.text = minRateText
+                rating.text = minRateText
             }
         })
 
@@ -113,11 +90,11 @@ class FilterActivity : AppCompatActivity() {
     }
 
     private fun updateFromLabel(dateText: String) {
-        fromDateTv.text = dateText
+        from_date_tv.text = dateText
     }
 
     private fun updateToLabel(dateText: String) {
-        tillDateTv.text = dateText
+        to_date_tv.text = dateText
     }
 
     private fun getDateFormat(): SimpleDateFormat {

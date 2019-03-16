@@ -3,17 +3,15 @@ package com.tnurdinov.movieroulette.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.tnurdinov.movieroulette.MovieResult
 import com.tnurdinov.movieroulette.model.MovieDetails
 import com.tnurdinov.movieroulette.repository.MovieRepository
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MovieViewModel : ViewModel(), CoroutineScope {
-    private val job = SupervisorJob()
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
-
+class MovieViewModel : ViewModel() {
     private val randomMovie: MutableLiveData<MovieDetails> = MutableLiveData()
     private val errorMessage: MutableLiveData<String> = MutableLiveData()
 
@@ -21,7 +19,7 @@ class MovieViewModel : ViewModel(), CoroutineScope {
         MovieRepository()
     }
 
-    fun requestRandomMovie() = launch {
+    fun requestRandomMovie() = viewModelScope.launch {
         val result = withContext(Dispatchers.IO) {
             repository.getRandomMovie()
         }
@@ -31,7 +29,7 @@ class MovieViewModel : ViewModel(), CoroutineScope {
         }
     }
 
-    private fun requestLastMovie(movieId: Long) = launch {
+    private fun requestLastMovie(movieId: Long) = viewModelScope.launch {
         val lastMovie = withContext(Dispatchers.IO) {
             repository.getLast(movieId)
         }
@@ -47,11 +45,6 @@ class MovieViewModel : ViewModel(), CoroutineScope {
 
     fun getObservableErrorMsg(): LiveData<String> {
         return errorMessage
-    }
-
-    override fun onCleared() {
-        coroutineContext.cancelChildren()
-        super.onCleared()
     }
 
     fun requestMovieToShow(lastMovieId: Long) {
