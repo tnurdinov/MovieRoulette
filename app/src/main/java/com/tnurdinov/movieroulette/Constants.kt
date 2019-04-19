@@ -6,4 +6,5 @@ object Constants {
 
     const val RELEASE_DATE_FROM = "release_date_from"
     const val RELEASE_DATE_TILL = "release_date_till"
+    const val RATING = "movie_rating"
 }

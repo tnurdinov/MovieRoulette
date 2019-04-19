@@ -15,7 +15,6 @@ import com.tnurdinov.movieroulette.Constants.LAST_MOVIE_ID
 import com.tnurdinov.movieroulette.Constants.PREFS_FILENAME
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_FROM
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_TILL
-import com.tnurdinov.movieroulette.extensions.onClick
 import com.tnurdinov.movieroulette.model.MovieDetails
 import com.tnurdinov.movieroulette.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             return@setOnMenuItemClickListener true
         }
 
-        fab.onClick {
+        fab.setOnClickListener {
             viewModel.requestRandomMovie()
         }
 
@@ -82,7 +81,6 @@ class MainActivity : AppCompatActivity() {
         val observer = Observer<MovieDetails> { movie ->
             sharedPreference.edit().putLong(LAST_MOVIE_ID, movie?.id ?: 0).apply()
             picasso.load("${BuildConfig.TMDB_IMG_URL}w780${movie?.backdrop_path}")
-                    .placeholder(R.drawable.anim_image_placeholder)
                     .into(movie_backdrop)
             picasso.load("${BuildConfig.TMDB_IMG_URL}w342${movie?.poster_path}")
                     .into(movie_poster)
