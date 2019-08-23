@@ -1,4 +1,4 @@
 package com.tnurdinov.movieroulette.model
 
 
-data class SpokenLanguage(var iso_639_1: String? = null, var name: String? = null)
+class SpokenLanguage(val iso_639_1: String? = null, val name: String? = null)

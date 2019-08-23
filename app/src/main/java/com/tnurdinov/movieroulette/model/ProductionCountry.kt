@@ -1,4 +1,4 @@
 package com.tnurdinov.movieroulette.model
 
 
-data class ProductionCountry(var iso_3166_1: String? = null, var name: String? = null)
+class ProductionCountry(val iso_3166_1: String? = null, val name: String? = null)
