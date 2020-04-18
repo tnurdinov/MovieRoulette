@@ -14,11 +14,13 @@ import com.tnurdinov.movieroulette.Constants.LAST_MOVIE_ID
 import com.tnurdinov.movieroulette.Constants.PREFS_FILENAME
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_FROM
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_TILL
+import com.tnurdinov.movieroulette.databinding.ActivityMainBinding
 import com.tnurdinov.movieroulette.model.MovieDetails
 import com.tnurdinov.movieroulette.viewmodel.MovieViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
 
     private val viewModel: MovieViewModel by lazy {
         ViewModelProvider(this).get(MovieViewModel::class.java)
@@ -30,15 +32,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        bar.replaceMenu(R.menu.main)
+        binding.bar.replaceMenu(R.menu.main)
 
-        bar.setNavigationOnClickListener {
+        binding.bar.setNavigationOnClickListener {
             // do something interesting on navigation click
         }
 
-        bar.setOnMenuItemClickListener { item ->
+        binding.bar.setOnMenuItemClickListener { item ->
             when(item.itemId) {
                 R.id.filter -> {
                     startActivity(Intent(this@MainActivity, FilterActivity::class.java))
@@ -48,11 +52,11 @@ class MainActivity : AppCompatActivity() {
             return@setOnMenuItemClickListener true
         }
 
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             viewModel.requestRandomMovie()
         }
 
-        sharedPreference.getLong(LAST_MOVIE_ID, 0).let { lastMovieId ->
+        sharedPreference.getLong(LAST_MOVIE_ID, 0L).also { lastMovieId ->
             viewModel.requestMovieToShow(lastMovieId)
         }
 
@@ -67,19 +71,19 @@ class MainActivity : AppCompatActivity() {
     private fun observeMovieDetail() {
         val observer = Observer<MovieDetails> { movie ->
             sharedPreference.edit().putLong(LAST_MOVIE_ID, movie?.id ?: 0).apply()
-            movie_backdrop.load("${BuildConfig.TMDB_IMG_URL}w780${movie?.backdrop_path}")
-            movie_poster.load("${BuildConfig.TMDB_IMG_URL}w342${movie?.poster_path}")
-            movie_name.text = movie?.title
-            movie_year.text = String.format(getString(R.string.release_date), movie?.release_date)
-            movie_rating.text = String.format(getString(R.string.rating), movie?.vote_average)
-            movie_description.text = movie?.overview
+            binding.movieBackdrop.load("${BuildConfig.TMDB_IMG_URL}w780${movie?.backdrop_path}")
+            binding.moviePoster.load("${BuildConfig.TMDB_IMG_URL}w342${movie?.poster_path}")
+            binding.movieName.text = movie?.title
+            binding.movieYear.text = String.format(getString(R.string.release_date), movie?.release_date)
+            binding.movieRating.text = String.format(getString(R.string.rating), movie?.vote_average)
+            binding.movieDescription.text = movie?.overview
         }
         viewModel.getObservableMovieDetail().observe(this, observer)
     }
 
     private fun observeErrorMessage() {
         val observer = Observer<String> { errorMessage ->
-            Snackbar.make(root_view, errorMessage, LENGTH_SHORT).show()
+            Snackbar.make(binding.rootView, errorMessage, LENGTH_SHORT).show()
         }
         viewModel.getObservableErrorMsg().observe(this, observer)
     }

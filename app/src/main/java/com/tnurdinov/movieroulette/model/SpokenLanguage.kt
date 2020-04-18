@@ -1,4 +1,6 @@
 package com.tnurdinov.movieroulette.model
 
+import com.squareup.moshi.JsonClass
 
-class SpokenLanguage(val iso_639_1: String? = null, val name: String? = null)
+@JsonClass(generateAdapter = true)
+data class SpokenLanguage(val iso_639_1: String? = null, val name: String? = null)

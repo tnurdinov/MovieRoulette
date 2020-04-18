@@ -1,19 +1,22 @@
 package com.tnurdinov.movieroulette.model
 
-class MovieShort(
-        val vote_count: Int,
-        val id: Long,
-        val video: Boolean,
-        val vote_average: Double,
-        val title: String,
-        val popularity: Double,
-        val poster_path: String,
-        val original_language: String,
-        val original_title: String,
-        val genre_ids: List<Int>,
-        val backdrop_path: String,
-        val adult: Boolean,
-        val overview: String,
-        val release_date: String
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+data class MovieShort(
+        val vote_count: Int = 0,
+        val id: Long = 0,
+        val video: Boolean = false,
+        val vote_average: Double = 0.0,
+        val title: String? = null,
+        val popularity: Double = 0.0,
+        val poster_path: String? = null,
+        val original_language: String? = null,
+        val original_title: String? = null,
+        val genre_ids: List<Int>? = null,
+        val backdrop_path: String? = null,
+        val adult: Boolean = false,
+        val overview: String? = null,
+        val release_date: String? = null
 )
 

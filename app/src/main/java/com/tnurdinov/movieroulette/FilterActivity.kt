@@ -11,11 +11,16 @@ import com.tnurdinov.movieroulette.Constants.PREFS_FILENAME
 import com.tnurdinov.movieroulette.Constants.RATING
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_FROM
 import com.tnurdinov.movieroulette.Constants.RELEASE_DATE_TILL
-import kotlinx.android.synthetic.main.activity_filter.*
+import com.tnurdinov.movieroulette.databinding.ActivityFilterBinding
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+
 
 class FilterActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityFilterBinding
 
     private val sharedPreference: SharedPreferences by lazy {
         this.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
@@ -23,8 +28,10 @@ class FilterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_filter)
-        setSupportActionBar(filter_toolbar)
+        binding = ActivityFilterBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        setSupportActionBar(binding.filterToolbar)
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
@@ -61,27 +68,35 @@ class FilterActivity : AppCompatActivity() {
             saveTillDate(dateText)
         }
 
-        from_date_tv.setOnClickListener {
+        binding.fromDateTv.setOnClickListener {
             val cal = getCalendarWithDate(fromDateString)
-            DatePickerDialog(
-                    this@FilterActivity, fromDatePickerListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+            val dialog = DatePickerDialog(
+                    this@FilterActivity,
+                    fromDatePickerListener,
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
                     cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            )
+            dialog.datePicker.maxDate = Date().time
+            dialog.show()
         }
 
-        to_date_tv.setOnClickListener {
+        binding.toDateTv.setOnClickListener {
             val cal = getCalendarWithDate(tillDateString)
-            DatePickerDialog(
+            val dialog = DatePickerDialog(
                     this@FilterActivity, toDatePickerListener, cal
+                    
                     .get(Calendar.YEAR), cal.get(Calendar.MONTH),
                     cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            )
+            dialog.datePicker.maxDate = Date().time
+            dialog.show()
         }
 
-        rating_seek.progress = ratingValue
+        binding.ratingSeek.progress = ratingValue
         updateRatingLabel(ratingValue)
 
-        rating_seek.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+        binding.ratingSeek.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
             }
 
@@ -98,7 +113,7 @@ class FilterActivity : AppCompatActivity() {
 
     private fun updateRatingLabel(rate: Int) {
         val minRateText = getString(R.string.minimum_rating, rate.toString())
-        rating.text = minRateText
+        binding.rating.text = minRateText
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -107,11 +122,11 @@ class FilterActivity : AppCompatActivity() {
     }
 
     private fun updateFromLabel(dateText: String) {
-        from_date_tv.text = dateText
+        binding.fromDateTv.text = dateText
     }
 
     private fun updateToLabel(dateText: String) {
-        to_date_tv.text = dateText
+        binding.toDateTv.text = dateText
     }
 
     private fun getDateFormat(): SimpleDateFormat {
@@ -119,28 +134,19 @@ class FilterActivity : AppCompatActivity() {
         return SimpleDateFormat(dateFormat, Locale.US)
     }
 
-    private fun getCalendarWithDate(dateStr: String): Calendar {
-        val date = getDateFormat().parse(dateStr)
-        val calendar = Calendar.getInstance()
-        calendar.time = date
-        return calendar
+    private fun getCalendarWithDate(dateStr: String) = Calendar.getInstance().apply {
+        time = getDateFormat().parse(dateStr)
     }
 
-    private fun saveFromDate(fromDate: String) {
-        sharedPreference.edit {
-            putString(RELEASE_DATE_FROM, fromDate)
-        }
+    private fun saveFromDate(fromDate: String) = sharedPreference.edit {
+        putString(RELEASE_DATE_FROM, fromDate)
     }
 
-    private fun saveTillDate(tillDate: String) {
-        sharedPreference.edit {
-            putString(RELEASE_DATE_TILL, tillDate)
-        }
+    private fun saveTillDate(tillDate: String) = sharedPreference.edit {
+        putString(RELEASE_DATE_TILL, tillDate)
     }
 
-    private fun saveRating(rate: Int) {
-        sharedPreference.edit {
-            putInt(RATING, rate)
-        }
+    private fun saveRating(rate: Int) = sharedPreference.edit {
+        putInt(RATING, rate)
     }
 }

@@ -7,7 +7,7 @@ import com.tnurdinov.movieroulette.model.ProductionCountry
 import com.tnurdinov.movieroulette.model.SpokenLanguage
 
 @JsonClass(generateAdapter = true)
-class MovieDetails(
+data class MovieDetails(
         val adult: Boolean? = false,
         val backdrop_path: String? = null,
         val belongs_to_collection: Any? = null,

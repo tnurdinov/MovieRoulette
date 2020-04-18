@@ -1,4 +1,6 @@
 package com.tnurdinov.movieroulette.model
 
+import com.squareup.moshi.JsonClass
 
-class Genre(var id: Int = 0, var name: String? = null)
+@JsonClass(generateAdapter = true)
+data class Genre(val id: Int = 0, val name: String? = null)
