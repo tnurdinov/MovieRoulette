@@ -14,7 +14,7 @@ Movie Roulette is an app which attempts to use the latest cutting edge libraries
 
 ## Build Status
 
-[![CircleCI](https://circleci.com/gh/tnurdinov/MovieRoulette/tree/develop.svg?style=svg&circle-token=54861fd7e229b4dd39ce305891b8ff71c95cb17b)](https://circleci.com/gh/tnurdinov/MovieRoulette/tree/develop)
+[![Build Status](https://app.bitrise.io/app/9c64947803dc134c/status.svg?token=t-Upyml36NELxtWra5vOhg&branch=develop)](https://app.bitrise.io/app/9c64947803dc134c)
 
 ## Try it on Play Store
 
